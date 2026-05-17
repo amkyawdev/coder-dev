@@ -10,21 +10,27 @@ export async function POST(request) {
       return Response.json({ error: 'API key not configured' }, { status: 500 })
     }
     
-    const response = await fetch('https://api-inference.huggingface.co/models/microsoft/Phi-3.5-mini-instruct', {
+    // Use HF chat completion API via router
+    const response = await fetch('https://router.huggingface.co/chat/completions', {
       headers: {
         'Authorization': `Bearer ${hfToken}`,
         'Content-Type': 'application/json'
       },
       method: 'POST',
       body: JSON.stringify({ 
-        inputs: message,
-        parameters: { max_new_tokens: 256 }
+        model: 'meta-llama/Llama-3.2-1B-Instruct',
+        messages: [{ role: 'user', content: message }],
+        max_tokens: 256
       })
     })
     
     const data = await response.json()
     
-    return Response.json({ message: data[0]?.generated_text || 'No response' })
+    if (data.error) {
+      return Response.json({ error: data.error }, { status: 500 })
+    }
+    
+    return Response.json({ message: data.choices[0].message.content })
     
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 })
