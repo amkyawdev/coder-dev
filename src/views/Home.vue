@@ -10,7 +10,8 @@
       <div v-if="loading" class="loading">Thinking...</div>
       <div class="input-area">
         <textarea 
-          v-model="message" 
+          :value="message" 
+          @input="message = $event.target.value"
           placeholder="Type your message..." 
           rows="3"
           @keydown.enter.exact.prevent="send"
