@@ -3,6 +3,14 @@ import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      'unfetch': 'isomorphic-unfetch'
+    }
+  },
+  optimizeDeps: {
+    include: ['isomorphic-unfetch']
+  },
   plugins: [
     vue(),
     VitePWA({

@@ -1,6 +1,8 @@
-import { HfInference } from 'huggingface'
+import { HfInference } from '@huggingface/inference'
 
-const hf = new HfInference(import.meta.env.VITE_HF_API_KEY || '')
+const hf = new HfInference({
+  token: import.meta.env.VITE_HF_API_KEY || ''
+})
 
 export const sendMessage = async (message) => {
   try {
