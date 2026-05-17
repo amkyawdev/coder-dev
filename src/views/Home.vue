@@ -13,7 +13,6 @@
           v-model="message" 
           placeholder="Type your message..." 
           rows="3"
-          @input="message = $event.target.value"
         ></textarea>
         <button @click="send" :disabled="!message.trim()" class="send-btn">Send</button>
       </div>
