@@ -18,7 +18,7 @@ export async function POST(request) {
       },
       method: 'POST',
       body: JSON.stringify({ 
-        model: 'mistralai/Mistral-7B-Instruct-v0.3',
+        model: 'meta-llama/Llama-3.2-1B-Instruct',
         messages: [{ role: 'user', content: message }],
         max_tokens: 256
       })
@@ -36,3 +36,5 @@ export async function POST(request) {
     return Response.json({ error: error.message }, { status: 500 })
   }
 }
+
+
