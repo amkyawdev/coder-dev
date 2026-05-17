@@ -18,7 +18,7 @@ export async function POST(request) {
       },
       method: 'POST',
       body: JSON.stringify({ 
-        model: 'meta-llama/Llama-3.2-1B-Instruct',
+        model: 'google/codegemma-7b-it',
         messages: [{ role: 'user', content: message }],
         max_tokens: 256
       })
