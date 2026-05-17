@@ -6,6 +6,8 @@
         <h1>Hello!</h1>
         <p>How can I help you today?</p>
       </div>
+      <div v-if="response" class="response">{{ response }}</div>
+      <div v-if="loading" class="loading">Thinking...</div>
       <div class="input-area">
         <textarea v-model="message" placeholder="Type your message..." rows="3"></textarea>
         <button @click="send" :disabled="!message.trim()" class="send-btn">Send</button>
@@ -19,8 +21,22 @@
 import { ref } from 'vue'
 import MobileBar from '../components/MobileBar.vue'
 import BottomNav from '../components/BottomNav.vue'
+import { sendMessage } from '../services/huggingface'
+
 const message = ref('')
-const send = () => { console.log('Sending:', message.value); message.value = '' }
+const response = ref('')
+const loading = ref(false)
+
+const send = async () => {
+  if (!message.value.trim()) return
+  loading.value = true
+  try {
+    response.value = await sendMessage(message.value)
+  } catch (e) {
+    response.value = 'Error: ' + e.message
+  }
+  loading.value = false
+}
 </script>
 
 <style scoped>
@@ -29,6 +45,8 @@ const send = () => { console.log('Sending:', message.value); message.value = '' 
 .hero { text-align: center; padding: 2rem 0; }
 .hero h1 { font-size: 1.5rem; }
 .hero p { color: var(--gray); }
+.response { padding: 1rem; background: var(--white); border-radius: 12px; margin: 1rem 0; white-space: pre-wrap; }
+.loading { padding: 1rem; color: var(--primary); }
 .input-area { position: fixed; bottom: 70px; left: 0; right: 0; padding: 1rem; background: var(--white); display: flex; gap: 0.5rem; }
 textarea { flex: 1; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 12px; resize: none; font-family: inherit; }
 .send-btn { padding: 0.75rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 600; }
