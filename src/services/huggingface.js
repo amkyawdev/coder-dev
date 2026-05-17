@@ -5,6 +5,10 @@ const hf = new HfInference({
 })
 
 export const sendMessage = async (message) => {
+  if (!import.meta.env.VITE_HF_API_KEY) {
+    return 'Error: VITE_HF_API_KEY not configured. Please set in Vercel Environment Variables.'
+  }
+  
   try {
     const response = await hf.chatCompletion({
       model: 'microsoft/Phi-3.5-mini-instruct',
@@ -16,7 +20,7 @@ export const sendMessage = async (message) => {
     return response.choices[0].message.content
   } catch (error) {
     console.error('HF Error:', error)
-    return 'Sorry, I encountered an error. Please try again.'
+    return 'Error: ' + error.message
   }
 }
 
