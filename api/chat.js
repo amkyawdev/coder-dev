@@ -11,7 +11,7 @@ export async function POST(request) {
     }
     
     // Use HF chat completion API via router
-    const response = await fetch('https://router.huggingface.co/chat/completions', {
+    const response = await fetch('https://router.huggingface.co/v1/chat/completions', {
       headers: {
         'Authorization': `Bearer ${hfToken}`,
         'Content-Type': 'application/json'
