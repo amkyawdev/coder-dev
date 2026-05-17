@@ -13,6 +13,7 @@
           v-model="message" 
           placeholder="Type your message..." 
           rows="3"
+          @keydown.enter.exact.prevent="send"
         ></textarea>
         <button @click="send" :disabled="!message.trim()" class="send-btn">Send</button>
       </div>
