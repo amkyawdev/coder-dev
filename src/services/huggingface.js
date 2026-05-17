@@ -10,14 +10,16 @@ export const sendMessage = async (message) => {
   }
   
   try {
-    const response = await hf.chatCompletion({
-      model: 'microsoft/Phi-3.5-mini-instruct',
-      messages: [
-        { role: 'user', content: message }
-      ],
-      max_tokens: 256
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message })
     })
-    return response.choices[0].message.content
+    const data = await response.json()
+    if (data.error) {
+      return 'Error: ' + data.error
+    }
+    return data.message
   } catch (error) {
     console.error('HF Error:', error)
     return 'Error: ' + error.message
