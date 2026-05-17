@@ -33,11 +33,16 @@ const response = ref('')
 const loading = ref(false)
 
 const send = async () => {
+  console.log('send called, message:', message.value)
   if (!message.value.trim()) return
   loading.value = true
   try {
-    response.value = await sendMessage(message.value)
+    console.log('calling API...')
+    const result = await sendMessage(message.value)
+    console.log('API result:', result)
+    response.value = result
   } catch (e) {
+    console.error('Error:', e)
     response.value = 'Error: ' + e.message
   }
   loading.value = false
